@@ -14,6 +14,7 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
@@ -40,6 +41,7 @@ public class SqlStatsInterceptor implements Interceptor {
     private static final long SLOW_THRESHOLD_MS = 2000;
 
     @Autowired
+    @Lazy
     private SlowSqlLogMapper slowSqlLogMapper;
 
     @Override
