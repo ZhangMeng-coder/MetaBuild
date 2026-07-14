@@ -11,7 +11,8 @@ src/
 │   ├── role.ts                            # 角色管理 API
 │   ├── menu.ts                            # 菜单管理 API
 │   ├── log.ts                             # 操作日志 API
-│   └── monitor.ts                         # 监控数据 API（慢SQL/接口耗时）
+│   ├── monitor.ts                         # 监控数据 API（慢SQL/接口耗时）
+│   └── dict.ts                            # 字典管理 API（字典类型+字典数据）
 ├── assets/
 │   ├── hero.png                           # 主页图片资源
 │   ├── vite.svg                           # Vite 图标
@@ -37,6 +38,9 @@ src/
         ├── role/index.vue                 # 角色管理（列表/分页/搜索/新增编辑/分配菜单）
         ├── menu/index.vue                 # 菜单管理（树形表格/新增编辑/目录菜单按钮）
         ├── log/index.vue                  # 操作日志（分页查询/搜索）
+        ├── dict/
+        │   ├── type/index.vue             # 字典管理（分页查询/搜索/新增编辑/查看字典数据）
+        │   └── data/index.vue             # 字典数据（从字典类型页面进入）
         └── monitor/
             ├── slow-sql.vue               # 慢SQL监控（分页查询/耗时筛选）
             └── api-timing.vue             # 接口耗时监控（分页查询/耗时筛选）

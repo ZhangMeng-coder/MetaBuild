@@ -54,6 +54,18 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/system/monitor/api-timing.vue'),
         meta: { title: '接口耗时监控', perms: 'system:monitor:api-timing' }
       },
+      {
+        path: 'system/dict/type',
+        name: 'DictType',
+        component: () => import('@/views/system/dict/type/index.vue'),
+        meta: { title: '字典类型', perms: 'system:dict:list' }
+      },
+      {
+        path: 'system/dict/data',
+        name: 'DictData',
+        component: () => import('@/views/system/dict/data/index.vue'),
+        meta: { title: '字典数据', perms: 'system:dict:data:list' }
+      },
     ]
   }
 ]

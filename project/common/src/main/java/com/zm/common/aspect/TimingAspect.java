@@ -9,6 +9,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -25,7 +26,11 @@ import java.time.LocalDateTime;
 @Component
 public class TimingAspect {
 
-    /** 接口耗时告警阈值，单位毫秒 */
+    /** 接口耗时记录阈值（毫秒），从配置文件读取，默认 500ms */
+    @Value("${monitor.api-timing.threshold-ms:500}")
+    private long thresholdMs;
+
+    /** 慢接口告警阈值，单位毫秒 */
     private static final long WARN_THRESHOLD_MS = 3000;
 
     @Autowired
@@ -55,33 +60,33 @@ public class TimingAspect {
             return joinPoint.proceed();
         } finally {
             long cost = System.currentTimeMillis() - start;
-            HttpServletRequest request = getRequest();
 
-            if (cost > WARN_THRESHOLD_MS) {
-                log.warn(SLOW_LOG_FORMAT,
-                        request != null ? request.getMethod() : "UNKNOWN",
-                        request != null ? request.getRequestURI() : "",
-                        methodName,
-                        cost);
-            } else {
-                log.info(NORMAL_LOG_FORMAT,
-                        request != null ? request.getMethod() : "UNKNOWN",
-                        request != null ? request.getRequestURI() : "",
-                        cost,
-                        methodName);
-            }
+            // 低于阈值的不记录
+            if (cost > thresholdMs) {
+                HttpServletRequest request = getRequest();
+                String httpMethod = request != null ? request.getMethod() : "UNKNOWN";
+                String uri = request != null ? request.getRequestURI() : "";
 
-            // 持久化接口耗时日志
-            try {
-                ApiTimingLog apiTimingLog = new ApiTimingLog();
-                apiTimingLog.setHttpMethod(request != null ? request.getMethod() : "UNKNOWN");
-                apiTimingLog.setUrl(request != null ? request.getRequestURI() : "");
-                apiTimingLog.setMethodName(methodName);
-                apiTimingLog.setCostMs(cost);
-                apiTimingLog.setCreateTime(LocalDateTime.now());
-                apiTimingLogMapper.insert(apiTimingLog);
-            } catch (Exception e) {
-                log.error("保存接口耗时日志失败", e);
+                if (cost > WARN_THRESHOLD_MS) {
+                    log.warn(SLOW_LOG_FORMAT,
+                            httpMethod, uri, methodName, cost);
+                } else {
+                    log.info(NORMAL_LOG_FORMAT,
+                            httpMethod, uri, cost, methodName);
+                }
+
+                // 持久化接口耗时日志
+                try {
+                    ApiTimingLog apiTimingLog = new ApiTimingLog();
+                    apiTimingLog.setHttpMethod(httpMethod);
+                    apiTimingLog.setUrl(uri);
+                    apiTimingLog.setMethodName(methodName);
+                    apiTimingLog.setCostMs(cost);
+                    apiTimingLog.setCreateTime(LocalDateTime.now());
+                    apiTimingLogMapper.insert(apiTimingLog);
+                } catch (Exception e) {
+                    log.error("保存接口耗时日志失败", e);
+                }
             }
         }
     }

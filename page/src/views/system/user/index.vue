@@ -282,7 +282,7 @@ onMounted(() => {
     <!-- 操作栏 -->
     <el-card>
       <div style="margin-bottom: 16px">
-        <el-button type="primary" @click="openAdd">新增</el-button>
+        <el-button type="primary" v-hasPermission="'system:user:add'" @click="openAdd">新增</el-button>
       </div>
 
       <!-- 表格 -->
@@ -309,13 +309,13 @@ onMounted(() => {
         <el-table-column prop="createTime" label="创建时间" width="180" />
         <el-table-column label="操作" width="300" fixed="right">
           <template #default="{ row }">
-            <el-button type="primary" link size="small" @click="openEdit(row)">编辑</el-button>
-            <el-button type="danger" link size="small" @click="handleDel(row.id)">删除</el-button>
+            <el-button type="primary" link size="small" v-hasPermission="'system:user:edit'" @click="openEdit(row)">编辑</el-button>
+            <el-button type="danger" link size="small" v-hasPermission="'system:user:delete'" @click="handleDel(row.id)">删除</el-button>
             <el-button type="warning" link size="small" @click="handleResetPassword(row.id)">重置密码</el-button>
             <el-button :type="row.status === 1 ? 'warning' : 'success'" link size="small" @click="handleSetStatus(row)">
               {{ row.status === 1 ? '停用' : '启用' }}
             </el-button>
-            <el-button type="info" link size="small" @click="openAssignRole(row)">分配角色</el-button>
+            <el-button type="info" link size="small" v-hasPermission="'system:user:role:assign'" @click="openAssignRole(row)">分配角色</el-button>
           </template>
         </el-table-column>
       </el-table>

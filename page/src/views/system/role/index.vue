@@ -254,7 +254,7 @@ onMounted(() => {
     <!-- 操作栏 -->
     <el-card>
       <div style="margin-bottom: 16px">
-        <el-button type="primary" @click="openAdd">新增</el-button>
+        <el-button type="primary" v-hasPermission="'system:role:add'" @click="openAdd">新增</el-button>
       </div>
 
       <!-- 表格 -->
@@ -273,12 +273,12 @@ onMounted(() => {
         <el-table-column prop="createTime" label="创建时间" width="180" />
         <el-table-column label="操作" width="320" fixed="right">
           <template #default="{ row }">
-            <el-button type="primary" link size="small" @click="openEdit(row)">编辑</el-button>
-            <el-button type="danger" link size="small" @click="handleDel(row.id)">删除</el-button>
+            <el-button type="primary" link size="small" v-hasPermission="'system:role:edit'" @click="openEdit(row)">编辑</el-button>
+            <el-button type="danger" link size="small" v-hasPermission="'system:role:delete'" @click="handleDel(row.id)">删除</el-button>
             <el-button :type="row.status === 1 ? 'warning' : 'success'" link size="small" @click="handleSetStatus(row)">
               {{ row.status === 1 ? '停用' : '启用' }}
             </el-button>
-            <el-button type="success" link size="small" @click="openAssignMenu(row)">分配菜单</el-button>
+            <el-button type="success" link size="small" v-hasPermission="'system:role:menu:assign'" @click="openAssignMenu(row)">分配菜单</el-button>
           </template>
         </el-table-column>
       </el-table>

@@ -14,6 +14,7 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -37,8 +38,9 @@ import java.util.Properties;
 })
 public class SqlStatsInterceptor implements Interceptor {
 
-    /** 慢 SQL 阈值，单位毫秒 */
-    private static final long SLOW_THRESHOLD_MS = 2000;
+    /** 慢 SQL 阈值（毫秒），从配置文件读取，默认 2000ms */
+    @Value("${monitor.slow-sql.threshold-ms:2000}")
+    private long slowThresholdMs;
 
     @Autowired
     @Lazy
@@ -51,7 +53,7 @@ public class SqlStatsInterceptor implements Interceptor {
             return invocation.proceed();
         } finally {
             long cost = System.currentTimeMillis() - start;
-            if (cost > SLOW_THRESHOLD_MS) {
+            if (cost > slowThresholdMs) {
                 // 慢 SQL：输出可执行 SQL 语句
                 MappedStatement ms = (MappedStatement) invocation.getArgs()[0];
                 Object parameter = invocation.getArgs().length > 1 ? invocation.getArgs()[1] : null;

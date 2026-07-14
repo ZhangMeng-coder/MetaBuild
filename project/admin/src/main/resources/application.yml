@@ -44,6 +44,16 @@ management:
     export:
       enabled: false                                       # 不启用外部 metrics 导出
 
+# ========================================
+# 监控阈值配置
+# ========================================
+
+monitor:
+  slow-sql:
+    threshold-ms: 2000          # 慢SQL阈值(毫秒)，超过此值才记录到数据库
+  api-timing:
+    threshold-ms: 2000           # 接口耗时阈值(毫秒)，超过此值才记录到数据库
+
 jwt:                                                      # JWT 令牌配置
   secret: MetaBuildSecretKey2026VeryLongSecretKeyForHS512Algorithm!!  # 签名密钥
   expiration: 86400000                                    # 过期时间（毫秒，24小时）

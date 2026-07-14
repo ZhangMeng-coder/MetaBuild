@@ -42,7 +42,16 @@ INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_name`, `menu_type`, `path`, `co
 (17, 0, '监控管理', 0, '/monitor', NULL, NULL, 'Monitor', 5),
 -- 菜单（挂在监控管理下）
 (18, 17, '慢SQL监控', 1, '/system/monitor/slow-sql', 'views/system/monitor/slow-sql.vue', 'system:monitor:slow-sql', 'DataBoard', 1),
-(19, 17, '接口耗时监控', 1, '/system/monitor/api-timing', 'views/system/monitor/api-timing.vue', 'system:monitor:api-timing', 'Timer', 2);
+(19, 17, '接口耗时监控', 1, '/system/monitor/api-timing', 'views/system/monitor/api-timing.vue', 'system:monitor:api-timing', 'Timer', 2),
+-- 目录：字典管理（挂在系统管理下）
+(20, 1, '字典管理', 1, '/system/dict/type', 'views/system/dict/type/index.vue', 'system:dict:list', 'Notebook', 5),
+-- 按钮（挂在字典管理下）
+(21, 20, '新增字典', 2, NULL, NULL, 'system:dict:add', NULL, 1),
+(22, 20, '编辑字典', 2, NULL, NULL, 'system:dict:edit', NULL, 2),
+(23, 20, '删除字典', 2, NULL, NULL, 'system:dict:delete', NULL, 3),
+(24, 20, '新增字典数据', 2, NULL, NULL, 'system:dict:data:add', NULL, 4),
+(25, 20, '编辑字典数据', 2, NULL, NULL, 'system:dict:data:edit', NULL, 5),
+(26, 20, '删除字典数据', 2, NULL, NULL, 'system:dict:data:delete', NULL, 6);
 
 -- 用户-角色关联
 INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (1, 1);
@@ -53,4 +62,6 @@ INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES
 (1, 5), (1, 6), (1, 7), (1, 8),
 (1, 9), (1, 10), (1, 11), (1, 12),
 (1, 13), (1, 14), (1, 15),
-(1, 17), (1, 18), (1, 19);
+(1, 17), (1, 18), (1, 19),
+(1, 20), (1, 21), (1, 22), (1, 23),
+(1, 24), (1, 25), (1, 26);

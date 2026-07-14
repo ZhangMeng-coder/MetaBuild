@@ -15,7 +15,7 @@ project/                                              # 父项目 (pom)
 │       ├── config/
 │       │   ├── CorsConfig.java                       # CORS 跨域配置
 │       │   ├── MybatisPlusConfig.java                # MyBatis-Plus 分页插件配置
-│       │   └── SqlStatsInterceptor.java              # SQL 性能拦截器（超2秒 WARN 告警 + 持久化到DB）
+│       │   └── SqlStatsInterceptor.java              # SQL 性能拦截器（超配置阈值 WARN 告警 + 持久化）
 │       ├── entity/
 │       │   ├── SysUserLog.java                       # 用户操作日志实体
 │       │   ├── SlowSqlLog.java                       # 慢SQL日志实体
@@ -55,7 +55,9 @@ project/                                              # 父项目 (pom)
 │       │   │   ├── RoleController.java               # 角色管理 CRUD（含分配菜单）
 │       │   │   ├── MenuController.java               # 菜单管理 CRUD
 │       │   │   ├── LogController.java                # 操作日志查询
-│       │   │   └── MonitorController.java            # 监控数据查询（慢SQL/接口耗时）
+│       │   │   ├── MonitorController.java            # 监控数据查询（慢SQL/接口耗时）
+│       │   │   ├── DictTypeController.java           # 字典类型 CRUD
+│       │   │   └── DictDataController.java           # 字典数据 CRUD
 │       │   ├── dto/
 │       │   │   ├── LoginRequest.java                 # 登录请求参数
 │       │   │   ├── LoginResponse.java                # 登录响应
@@ -70,13 +72,17 @@ project/                                              # 父项目 (pom)
 │       │   │   ├── SysRole.java                      # 系统角色实体
 │       │   │   ├── SysMenu.java                      # 系统菜单实体
 │       │   │   ├── SysUserRole.java                  # 用户-角色关联实体
-│       │   │   └── SysRoleMenu.java                  # 角色-菜单关联实体
+│       │   │   ├── SysRoleMenu.java                  # 角色-菜单关联实体
+│       │   │   ├── SysDictType.java                  # 字典类型实体
+│       │   │   └── SysDictData.java                  # 字典数据实体
 │       │   ├── mapper/
 │       │   │   ├── UserMapper.java                   # 用户 Mapper
 │       │   │   ├── RoleMapper.java                   # 角色 Mapper
 │       │   │   ├── MenuMapper.java                   # 菜单 Mapper
 │       │   │   ├── UserRoleMapper.java               # 用户-角色关联 Mapper
-│       │   │   └── RoleMenuMapper.java               # 角色-菜单关联 Mapper
+│       │   │   ├── RoleMenuMapper.java               # 角色-菜单关联 Mapper
+│       │   │   ├── DictTypeMapper.java               # 字典类型 Mapper
+│       │   │   └── DictDataMapper.java               # 字典数据 Mapper
 │       │   └── service/
 │       │       ├── AuthService.java                  # 认证服务接口
 │       │       ├── impl/AuthServiceImpl.java         # 认证服务实现（登录/用户信息）
@@ -85,13 +91,18 @@ project/                                              # 父项目 (pom)
 │       │       ├── RoleService.java                  # 角色服务接口
 │       │       ├── impl/RoleServiceImpl.java         # 角色服务实现
 │       │       ├── MenuService.java                  # 菜单服务接口
-│       │       └── impl/MenuServiceImpl.java         # 菜单服务实现
+│       │       ├── impl/MenuServiceImpl.java         # 菜单服务实现
+│       │       ├── DictTypeService.java              # 字典类型服务接口
+│       │       ├── impl/DictTypeServiceImpl.java     # 字典类型服务实现
+│       │       ├── DictDataService.java              # 字典数据服务接口
+│       │       └── impl/DictDataServiceImpl.java     # 字典数据服务实现
 │       └── resources/
 │           └── mapper/
 │               ├── UserRoleMapper.xml                # 用户-角色关联 SQL
 │               ├── MenuMapper.xml                    # 菜单 SQL
 │               ├── RoleMapper.xml                    # 角色 SQL
-│               └── RoleMenuMapper.xml                # 角色-菜单关联 SQL
+│               ├── RoleMenuMapper.xml                # 角色-菜单关联 SQL
+│               └── DictDataMapper.xml                # 字典数据 SQL
 │
 ├── server/                                           # 业务模块 → 依赖 common
 │   └── pom.xml                                       # 预留：业务逻辑存放位置，当前为空
@@ -102,7 +113,7 @@ project/                                              # 父项目 (pom)
         ├── java/com/zm/
         │   └── MetaBuildApplication.java             # Spring Boot 启动类
         └── resources/
-            └── application.yml                       # 主配置（数据源、Redis、JWT、MyBatis-Plus、Actuator）
+            └── application.yml                       # 主配置（数据源、Redis、JWT、MyBatis-Plus、监控阈值、Actuator）
 
 ## 依赖链
 
@@ -119,6 +130,8 @@ admin (可运行 JAR)
 | system | `/api/system/log/page`                 | POST | 操作日志分页查询   |
 | system | `/api/system/monitor/slow-sql/page`    | POST | 慢SQL日志分页查询  |
 | system | `/api/system/monitor/api-timing/page`  | POST | 接口耗时分页查询   |
+| system | `/api/system/dict/type/page`            | POST | 字典类型分页查询   |
+| system | `/api/system/dict/data/page`            | POST | 字典数据分页查询   |
 
 ## 关键路径
 

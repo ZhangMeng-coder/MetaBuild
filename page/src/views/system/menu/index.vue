@@ -210,7 +210,7 @@ onMounted(() => {
     <!-- 操作栏 -->
     <el-card>
       <div style="margin-bottom: 16px">
-        <el-button type="primary" @click="openAdd(0)">新增</el-button>
+        <el-button type="primary" v-hasPermission="'system:menu:add'" @click="openAdd(0)">新增</el-button>
       </div>
 
       <!-- 树形表格 -->
@@ -245,9 +245,9 @@ onMounted(() => {
         </el-table-column>
         <el-table-column label="操作" width="180" fixed="right">
           <template #default="{ row }">
-            <el-button type="primary" link size="small" @click="openAdd(row.id)">新增</el-button>
-            <el-button type="warning" link size="small" @click="openEdit(row)">编辑</el-button>
-            <el-button type="danger" link size="small" @click="handleDel(row.id)">删除</el-button>
+            <el-button type="primary" link size="small" v-hasPermission="'system:menu:add'" @click="openAdd(row.id)">新增</el-button>
+            <el-button type="warning" link size="small" v-hasPermission="'system:menu:edit'" @click="openEdit(row)">编辑</el-button>
+            <el-button type="danger" link size="small" v-hasPermission="'system:menu:delete'" @click="handleDel(row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
