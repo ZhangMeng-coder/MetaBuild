@@ -1,7 +1,7 @@
 package com.zm.system.controller;
 
 import com.zm.common.vo.RespData;
-import com.zm.system.annotation.LogInfo;
+import com.zm.common.annotation.LogInfo;
 import com.zm.system.dto.UserQuery;
 import com.zm.system.entity.SysUser;
 import com.zm.system.service.UserService;

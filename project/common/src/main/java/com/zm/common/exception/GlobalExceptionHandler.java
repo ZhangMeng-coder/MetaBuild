@@ -80,7 +80,7 @@ public class GlobalExceptionHandler {
     /**
      * 处理403权限不足（已登录但无权限）
      */
-    @ExceptionHandler(AccessDeniedException.class)
+    @ExceptionHandler(AccessDeniedException .class)
     public RespData<Void> handleAccessDeniedException(AccessDeniedException e, HttpServletRequest request) {
         log.error("请求地址: {}, 权限不足: {}", request.getRequestURI(), e.getMessage());
         return RespData.error(403, "权限不足");

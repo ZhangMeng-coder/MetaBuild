@@ -1,6 +1,6 @@
 package com.zm.system.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.spring.service.IService;
 import com.zm.system.entity.SysMenu;
 
 import java.util.List;

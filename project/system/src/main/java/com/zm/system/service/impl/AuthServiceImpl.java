@@ -97,11 +97,10 @@ public class AuthServiceImpl implements AuthService {
         // 从 SecurityContext 获取当前认证信息
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // 认证信息不存在或不是 CustomUserDetails 类型，抛出异常
-        if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails)) {
+        if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails userDetails)) {
             throw new ServiceException(ServiceExceptionEnums.DATA_NOT_EXIST);
         }
 
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         Long userId = userDetails.getUserId();
 
         // 查询用户基本信息

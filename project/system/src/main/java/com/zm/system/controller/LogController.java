@@ -3,7 +3,7 @@ package com.zm.system.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zm.common.vo.RespData;
-import com.zm.system.annotation.LogInfo;
+import com.zm.common.annotation.LogInfo;
 import com.zm.system.dto.LogQuery;
 import com.zm.common.entity.SysUserLog;
 import com.zm.common.mapper.UserLogMapper;

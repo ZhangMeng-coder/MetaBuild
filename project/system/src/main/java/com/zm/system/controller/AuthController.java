@@ -1,7 +1,7 @@
 package com.zm.system.controller;
 
+import com.zm.common.annotation.LogInfo;
 import com.zm.common.vo.RespData;
-import com.zm.system.annotation.LogInfo;
 import com.zm.system.dto.LoginRequest;
 import com.zm.system.dto.LoginResponse;
 import com.zm.system.service.AuthService;

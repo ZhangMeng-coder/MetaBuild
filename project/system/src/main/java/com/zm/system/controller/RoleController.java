@@ -2,7 +2,7 @@ package com.zm.system.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zm.common.vo.RespData;
-import com.zm.system.annotation.LogInfo;
+import com.zm.common.annotation.LogInfo;
 import com.zm.system.dto.RoleQuery;
 import com.zm.system.entity.SysRole;
 import com.zm.system.service.RoleService;
