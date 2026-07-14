@@ -32,7 +32,6 @@ public class LogController {
      * @return 分页日志列表
      */
     @PostMapping("/page")
-    @LogInfo("查询操作日志")
     @PreAuthorize("hasAuthority('system:log:list')")
     public RespData<Page<SysUserLog>> page(@RequestBody LogQuery query) {
         Page<SysUserLog> page = query.toPage(SysUserLog.class);

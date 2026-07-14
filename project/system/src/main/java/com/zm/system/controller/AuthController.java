@@ -44,7 +44,6 @@ public class AuthController {
      * @return 包含用户信息和菜单树的响应
      */
     @GetMapping("/me")
-    @LogInfo("获取用户信息")
     public RespData<Map<String, Object>> me() {
         Map<String, Object> userInfo = authService.getUserInfo();
         return RespData.success(userInfo);

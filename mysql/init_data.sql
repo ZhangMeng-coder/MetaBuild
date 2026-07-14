@@ -34,6 +34,10 @@ INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_name`, `menu_type`, `path`, `co
 (12, 3, '分配菜单', 2, NULL, NULL, 'system:role:menu:assign', NULL, 4),
 -- 菜单（挂在系统管理下）
 (16, 1, '操作日志', 1, '/system/log', 'views/system/log/index.vue', 'system:log:list', 'Document', 4),
+-- 目录：功能配置
+(32, 0, '功能配置', 0, '/func', NULL, NULL, 'Setting', 2),
+-- 菜单：元数据管理（挂在功能配置下）
+(27, 32, '元数据管理', 1, '/metadata/table', 'views/metadata/table/index.vue', 'server:meta:table:list', 'Collection', 1),
 -- 按钮（挂在菜单管理下）
 (13, 4, '新增菜单', 2, NULL, NULL, 'system:menu:add', NULL, 1),
 (14, 4, '编辑菜单', 2, NULL, NULL, 'system:menu:edit', NULL, 2),
@@ -51,7 +55,14 @@ INSERT INTO `sys_menu` (`id`, `parent_id`, `menu_name`, `menu_type`, `path`, `co
 (23, 20, '删除字典', 2, NULL, NULL, 'system:dict:delete', NULL, 3),
 (24, 20, '新增字典数据', 2, NULL, NULL, 'system:dict:data:add', NULL, 4),
 (25, 20, '编辑字典数据', 2, NULL, NULL, 'system:dict:data:edit', NULL, 5),
-(26, 20, '删除字典数据', 2, NULL, NULL, 'system:dict:data:delete', NULL, 6);
+(26, 20, '删除字典数据', 2, NULL, NULL, 'system:dict:data:delete', NULL, 6),
+(31, 20, '字典数据查询', 2, NULL, NULL, 'system:dict:data:list', NULL, 7),
+-- 按钮（挂在元数据管理下）
+(28, 27, '新增元数据表', 2, NULL, NULL, 'server:meta:table:add', NULL, 1),
+(29, 27, '编辑元数据表', 2, NULL, NULL, 'server:meta:table:edit', NULL, 2),
+(30, 27, '删除元数据表', 2, NULL, NULL, 'server:meta:table:delete', NULL, 3),
+(33, 27, '导出元数据', 2, NULL, NULL, 'server:meta:table:export', NULL, 4),
+(34, 27, '导入元数据', 2, NULL, NULL, 'server:meta:table:import', NULL, 5);
 
 -- 用户-角色关联
 INSERT INTO `sys_user_role` (`user_id`, `role_id`) VALUES (1, 1);
@@ -64,4 +75,7 @@ INSERT INTO `sys_role_menu` (`role_id`, `menu_id`) VALUES
 (1, 13), (1, 14), (1, 15),
 (1, 17), (1, 18), (1, 19),
 (1, 20), (1, 21), (1, 22), (1, 23),
-(1, 24), (1, 25), (1, 26);
+(1, 24), (1, 25), (1, 26),
+(1, 31),
+(1, 32),
+(1, 27), (1, 28), (1, 29), (1, 30), (1, 33), (1, 34);

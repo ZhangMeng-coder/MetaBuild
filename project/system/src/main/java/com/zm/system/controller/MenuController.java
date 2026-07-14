@@ -28,7 +28,6 @@ public class MenuController {
      * @return 树形菜单列表
      */
     @GetMapping("/tree")
-    @LogInfo("查询菜单树")
     @PreAuthorize("hasAuthority('system:menu:list')")
     public RespData<List<SysMenu>> tree() {
         List<SysMenu> tree = menuService.tree();
@@ -44,9 +43,9 @@ public class MenuController {
     @PostMapping
     @LogInfo("新增菜单")
     @PreAuthorize("hasAuthority('system:menu:add')")
-    public RespData<Void> add(@RequestBody SysMenu menu) {
-        menuService.add(menu);
-        return RespData.success();
+    public RespData<Long> add(@RequestBody SysMenu menu) {
+        Long menuId = menuService.add(menu);
+        return RespData.success(menuId);
     }
 
     /**

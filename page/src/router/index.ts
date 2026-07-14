@@ -66,6 +66,36 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/system/dict/data/index.vue'),
         meta: { title: '字典数据', perms: 'system:dict:data:list' }
       },
+      {
+        path: 'metadata/table',
+        name: 'MetaTable',
+        component: () => import('@/views/metadata/table/index.vue'),
+        meta: { title: '元数据管理', perms: 'server:meta:table:list' }
+      },
+      {
+        path: 'metadata/column',
+        name: 'MetaColumn',
+        component: () => import('@/views/metadata/column/index.vue'),
+        meta: { title: '元数据列管理', perms: 'server:meta:table:list' }
+      },
+      {
+        path: 'metadata/config',
+        name: 'MetaConfig',
+        component: () => import('@/views/metadata/config/index.vue'),
+        meta: { title: '元数据配置', perms: 'server:meta:table:edit' }
+      },
+      {
+        path: 'metadata/dynamic',
+        name: 'MetaDynamic',
+        component: () => import('@/views/metadata/dynamic/index.vue'),
+        meta: { title: '动态数据管理', perms: 'server:meta:table:list' }
+      },
+      {
+        path: 'metadata/dynamic/:tableId',
+        name: 'MetaDynamicByTable',
+        component: () => import('@/views/metadata/dynamic/index.vue'),
+        meta: { title: '动态数据管理', perms: 'server:meta:table:list' }
+      },
     ]
   }
 ]
@@ -81,7 +111,7 @@ const router = createRouter({
  * 检查用户是否已登录（通过 Cookie 中的 Token 判断），
  * 未登录且访问非登录页时，自动跳转到登录页
  */
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
   const token = getToken()
   if (to.path !== '/login' && !token) {
     // 未登录，重定向到登录页

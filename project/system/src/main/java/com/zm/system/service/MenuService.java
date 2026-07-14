@@ -9,7 +9,7 @@ public interface MenuService extends IService<SysMenu> {
 
     List<SysMenu> tree();
 
-    void add(SysMenu menu);
+    Long add(SysMenu menu);
 
     void update(SysMenu menu);
 

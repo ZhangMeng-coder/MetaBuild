@@ -32,7 +32,6 @@ public class RoleController {
      * @return 分页角色列表
      */
     @PostMapping("/page")
-    @LogInfo("分页查询角色列表")
     @PreAuthorize("hasAuthority('system:role:list')")
     public RespData<Page<SysRole>> page(@RequestBody RoleQuery query) {
         Page<SysRole> page = roleService.page(query);
@@ -104,7 +103,6 @@ public class RoleController {
      * @return 菜单ID列表
      */
     @GetMapping("/{id}/menus")
-    @LogInfo("获取角色菜单")
     @PreAuthorize("hasAuthority('system:role:menu:assign')")
     public RespData<List<Long>> getRoleMenus(@PathVariable Long id) {
         List<Long> menuIds = roleService.getRoleMenus(id);

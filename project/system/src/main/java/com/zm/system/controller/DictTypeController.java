@@ -25,7 +25,6 @@ public class DictTypeController {
      * 分页查询字典类型
      */
     @PostMapping("/page")
-    @LogInfo("查询字典类型")
     @PreAuthorize("hasAuthority('system:dict:list')")
     public RespData<Page<SysDictType>> page(@RequestBody Page<SysDictType> page) {
         LambdaQueryWrapper<SysDictType> wrapper = new LambdaQueryWrapper<SysDictType>()
@@ -37,7 +36,6 @@ public class DictTypeController {
      * 查询字典类型详情
      */
     @GetMapping("/{id}")
-    @LogInfo("查询字典类型详情")
     @PreAuthorize("hasAuthority('system:dict:list')")
     public RespData<SysDictType> get(@PathVariable Long id) {
         return RespData.success(dictTypeService.getById(id));
