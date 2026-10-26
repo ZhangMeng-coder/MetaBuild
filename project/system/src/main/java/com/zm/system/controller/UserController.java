@@ -32,7 +32,6 @@ public class UserController {
      * @return 分页用户列表
      */
     @PostMapping("/page")
-    @LogInfo("分页查询用户列表")
     @PreAuthorize("hasAuthority('system:user:list')")
     public RespData<Page<SysUser>> page(@RequestBody UserQuery query) {
         Page<SysUser> page = userService.page(query);
@@ -118,7 +117,6 @@ public class UserController {
      * @return 角色ID列表
      */
     @GetMapping("/{id}/roles")
-    @LogInfo("获取用户角色")
     @PreAuthorize("hasAuthority('system:user:role:assign')")
     public RespData<List<Long>> getUserRoles(@PathVariable Long id) {
         List<Long> roleIds = userService.getUserRoles(id);

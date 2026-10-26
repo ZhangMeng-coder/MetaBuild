@@ -12,7 +12,8 @@ src/
 │   ├── menu.ts                            # 菜单管理 API
 │   ├── log.ts                             # 操作日志 API
 │   ├── monitor.ts                         # 监控数据 API（慢SQL/接口耗时）
-│   └── dict.ts                            # 字典管理 API（字典类型+字典数据）
+│   ├── dict.ts                            # 字典管理 API（字典类型+字典数据）
+│   └── meta.ts                            # 元数据管理 API（元数据表+列管理+数据库元数据查询）
 ├── assets/
 │   ├── hero.png                           # 主页图片资源
 │   ├── vite.svg                           # Vite 图标
@@ -33,15 +34,20 @@ src/
 └── views/
     ├── login/
     │   └── index.vue                      # 登录页面
-    └── system/
-        ├── user/index.vue                 # 用户管理（列表/分页/搜索/新增编辑/分配角色）
-        ├── role/index.vue                 # 角色管理（列表/分页/搜索/新增编辑/分配菜单）
-        ├── menu/index.vue                 # 菜单管理（树形表格/新增编辑/目录菜单按钮）
-        ├── log/index.vue                  # 操作日志（分页查询/搜索）
-        ├── dict/
-        │   ├── type/index.vue             # 字典管理（分页查询/搜索/新增编辑/查看字典数据）
-        │   └── data/index.vue             # 字典数据（从字典类型页面进入）
-        └── monitor/
-            ├── slow-sql.vue               # 慢SQL监控（分页查询/耗时筛选）
-            └── api-timing.vue             # 接口耗时监控（分页查询/耗时筛选）
+    ├── system/
+    │   ├── user/index.vue                 # 用户管理（列表/分页/搜索/新增编辑/分配角色）
+    │   ├── role/index.vue                 # 角色管理（列表/分页/搜索/新增编辑/分配菜单）
+    │   ├── menu/index.vue                 # 菜单管理（树形表格/新增编辑/目录菜单按钮）
+    │   ├── log/index.vue                  # 操作日志（分页查询/搜索）
+    │   ├── dict/
+    │   │   ├── type/index.vue             # 字典管理（分页查询/搜索/新增编辑/查看字典数据）
+    │   │   └── data/index.vue             # 字典数据（从字典类型页面进入）
+    │   └── monitor/
+    │       ├── slow-sql.vue               # 慢SQL监控（分页查询/耗时筛选）
+    │       └── api-timing.vue             # 接口耗时监控（分页查询/耗时筛选）
+    └── metadata/
+        ├── table/index.vue                # 元数据管理（列表/分页/新增/编辑/删除/列管理/配置/数据管理）
+        ├── column/index.vue               # 元数据列管理（从元数据表页面进入，编辑列展示属性）
+        ├── config/index.vue               # 拖拽配置页面（列表列配置 + 表单字段配置，拖拽排序）
+        └── dynamic/index.vue              # 动态数据管理页面（根据配置生成 CRUD + 搜索/导出/导入）
 ```

@@ -27,7 +27,6 @@ public class DictDataController {
      * 分页查询字典数据
      */
     @PostMapping("/page")
-    @LogInfo("查询字典数据")
     @PreAuthorize("hasAuthority('system:dict:data:list')")
     public RespData<Page<SysDictData>> page(@RequestBody Page<SysDictData> page,
                                             @RequestParam(required = false) String dictType) {
@@ -41,7 +40,6 @@ public class DictDataController {
      * 查询字典数据详情
      */
     @GetMapping("/{id}")
-    @LogInfo("查询字典数据详情")
     @PreAuthorize("hasAuthority('system:dict:data:list')")
     public RespData<SysDictData> get(@PathVariable Long id) {
         return RespData.success(dictDataService.getById(id));

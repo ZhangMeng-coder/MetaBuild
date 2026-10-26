@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zm.server.mapper.MetaDbMapper">
+
+    <!-- 查询当前数据库中所有表，排除 sys_ 和 tb_ 开头的表 -->
+    <select id="selectDbTables" resultType="java.util.Map">
+        SELECT
+            TABLE_NAME   AS `tableName`,
+            TABLE_COMMENT AS `tableComment`
+        FROM information_schema.TABLES
+        WHERE TABLE_SCHEMA = (SELECT DATABASE())
+          AND TABLE_NAME NOT LIKE 'sys\_%'
+          AND TABLE_NAME NOT LIKE 'tb\_%'
+        ORDER BY TABLE_NAME
+    </select>
+
+    <!-- 查询指定表的列信息 -->
+    <select id="selectDbColumns" resultType="java.util.Map">
+        SELECT
+            COLUMN_NAME     AS `columnName`,
+            COLUMN_COMMENT  AS `columnComment`,
+            DATA_TYPE       AS `dataType`,
+            IS_NULLABLE     AS `isNullable`,
+            COLUMN_KEY      AS `columnKey`,
+            ORDINAL_POSITION AS `ordinalPosition`
+        FROM information_schema.COLUMNS
+        WHERE TABLE_SCHEMA = (SELECT DATABASE())
+          AND TABLE_NAME = #{tableName}
+        ORDER BY ORDINAL_POSITION
+    </select>
+
+</mapper>

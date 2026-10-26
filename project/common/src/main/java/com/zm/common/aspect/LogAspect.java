@@ -40,6 +40,7 @@ public class LogAspect {
     public Object around(ProceedingJoinPoint joinPoint, LogInfo logInfo) throws Throwable {
         // 获取当前请求
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+
         SysUserLog userLog = new SysUserLog();
         // 记录操作名称（@LogInfo 的 value 值）
         userLog.setOperationName(logInfo.value());

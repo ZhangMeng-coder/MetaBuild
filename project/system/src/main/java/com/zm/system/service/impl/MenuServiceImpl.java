@@ -36,7 +36,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, SysMenu> implements
     }
 
     @Override
-    public void add(SysMenu menu) {
+    public Long add(SysMenu menu) {
         if (menu.getSort() == null) {
             menu.setSort(0);
         }
@@ -48,6 +48,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, SysMenu> implements
             menu.setCreateUser(UserContext.getUserId().intValue());
         }
         menuMapper.insert(menu);
+        return menu.getId();
     }
 
     @Override

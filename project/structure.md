@@ -105,7 +105,36 @@ project/                                              # 父项目 (pom)
 │               └── DictDataMapper.xml                # 字典数据 SQL
 │
 ├── server/                                           # 业务模块 → 依赖 common
-│   └── pom.xml                                       # 预留：业务逻辑存放位置，当前为空
+│   ├── pom.xml                                       # 提供：元数据管理功能
+│   └── src/main/
+│       ├── java/com/zm/server/
+│       │   ├── controller/
+│       │   │   ├── MetaTableController.java          # 元数据表控制器（CRUD + information_schema 查询）
+│       │   │   ├── MetaConfigController.java         # 元数据配置控制器（列表/表单配置 CRUD + 拖拽排序）
+│       │   │   └── MetaDynamicController.java        # 动态数据控制器（动态 CRUD + 导出CSV + 导入CSV）
+│       │   ├── entity/
+│       │   │   ├── MetaTable.java                    # 元数据表定义实体（tb_metadata_table）
+│       │   │   ├── MetaColumn.java                   # 元数据列定义实体（tb_metadata_column）
+│       │   │   ├── MetaListConfig.java               # 元数据列表配置实体（tb_metadata_list_config）
+│       │   │   └── MetaFormConfig.java               # 元数据表单配置实体（tb_metadata_form_config）
+│       │   ├── mapper/
+│       │   │   ├── MetaTableMapper.java              # 元数据表 Mapper
+│       │   │   ├── MetaColumnMapper.java             # 元数据列 Mapper
+│       │   │   ├── MetaDbMapper.java                 # 数据库元数据查询 Mapper（information_schema）
+│       │   │   ├── MetaListConfigMapper.java         # 元数据列表配置 Mapper
+│       │   │   └── MetaFormConfigMapper.java         # 元数据表单配置 Mapper
+│       │   └── service/
+│       │       ├── MetaTableService.java             # 元数据表服务接口
+│       │       ├── impl/MetaTableServiceImpl.java    # 元数据表服务实现
+│       │       ├── MetaColumnService.java            # 元数据列服务接口
+│       │       ├── impl/MetaColumnServiceImpl.java    # 元数据列服务实现
+│       │       ├── MetaListConfigService.java        # 元数据列表配置服务接口
+│       │       ├── impl/MetaListConfigServiceImpl.java # 元数据列表配置服务实现
+│       │       ├── MetaFormConfigService.java        # 元数据表单配置服务接口
+│       │       └── impl/MetaFormConfigServiceImpl.java # 元数据表单配置服务实现
+│       └── resources/
+│           └── mapper/
+│               └── MetaDbMapper.xml                  # information_schema 查询 SQL
 │
 └── admin/                                            # 启动模块 → 依赖 system + server
     ├── pom.xml                                       # 可运行 JAR 入口（spring-boot-maven-plugin + Actuator）
@@ -120,7 +149,7 @@ project/                                              # 父项目 (pom)
 admin (可运行 JAR)
   ├── system (JWT安全 + 控制器 + 业务服务 + 监控查询)
   │    └── common (基础框架 + LogAspect + UserContext + 监控实体 & 拦截器)
-  └── server (业务逻辑，预留)
+  └── server (元数据管理)
        └── common
 
 ## API 接口
@@ -132,6 +161,27 @@ admin (可运行 JAR)
 | system | `/api/system/monitor/api-timing/page`  | POST | 接口耗时分页查询   |
 | system | `/api/system/dict/type/page`            | POST | 字典类型分页查询   |
 | system | `/api/system/dict/data/page`            | POST | 字典数据分页查询   |
+| server | `/api/server/meta/table/db-tables`      | GET  | 查询数据库表列表（排除 sys_/tb_） |
+| server | `/api/server/meta/table/db-columns/{tableName}` | GET | 查询指定表的列信息 |
+| server | `/api/server/meta/table/page`           | POST | 元数据表分页查询   |
+| server | `/api/server/meta/table`                | POST | 新增元数据表       |
+| server | `/api/server/meta/table/{id}`           | GET  | 查询元数据表详情   |
+| server | `/api/server/meta/table`                | PUT  | 修改元数据表       |
+| server | `/api/server/meta/table/{id}`           | DELETE | 删除元数据表     |
+| server | `/api/server/meta/table/{id}/columns`   | GET  | 查询元数据表的列列表 |
+| server | `/api/server/meta/table/column`         | PUT  | 修改元数据列       |
+| server | `/api/server/meta/table/column/dict-sql`| POST | 执行字典 SQL 查询  |
+| server | `/api/server/meta/config/{tableId}/list` | GET  | 查询列表配置       |
+| server | `/api/server/meta/config/{tableId}/list` | POST | 保存列表配置       |
+| server | `/api/server/meta/config/{tableId}/form` | GET  | 查询表单配置       |
+| server | `/api/server/meta/config/{tableId}/form` | POST | 保存表单配置       |
+| server | `/api/server/meta/dynamic/{tableId}/page`    | POST | 动态数据分页查询   |
+| server | `/api/server/meta/dynamic/{tableId}/{id}`   | GET  | 动态数据详情查询   |
+| server | `/api/server/meta/dynamic/{tableId}`         | POST | 动态数据新增       |
+| server | `/api/server/meta/dynamic/{tableId}`         | PUT  | 动态数据修改       |
+| server | `/api/server/meta/dynamic/{tableId}/{id}`   | DELETE | 动态数据删除     |
+| server | `/api/server/meta/dynamic/{tableId}/export`  | POST | 动态数据导出(CSV) |
+| server | `/api/server/meta/dynamic/{tableId}/import`  | POST | 动态数据导入(CSV) |
 
 ## 关键路径
 
@@ -139,7 +189,7 @@ admin (可运行 JAR)
 |------|--------|----------|
 | common | `common/src/main/java/...` | 无 |
 | system | `system/src/main/java/...` | `system/src/main/resources/mapper/*.xml` |
-| server | `server/src/main/java/...` | 无 |
+| server | `server/src/main/java/...` | `server/src/main/resources/mapper/*.xml` |
 | admin | `admin/src/main/java/...` | `admin/src/main/resources/application.yml` |
 | - | `mysql/*.sql`（项目根目录） | 数据库表结构 + 初始化数据 |
 ```
